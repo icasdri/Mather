@@ -1,0 +1,19 @@
+# Dev environment-specific files
+*.iml
+.idea/
+.DS_Store
+.gradle
+local.properties
+proguard/
+
+# Built/generated files
+build/
+*.apk
+*.class
+bin/
+gen/
+captures/
+
+# Ephemeral files
+*.log
+*.swp
