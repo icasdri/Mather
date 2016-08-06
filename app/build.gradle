@@ -19,9 +19,24 @@ android {
     }
 }
 
+String sha256sum(String pathstr) {
+    java.nio.file.Path path = java.nio.file.Paths.get(pathstr);
+    byte[] contents = java.nio.file.Files.readAllBytes(path);
+    java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
+    byte[] hash = digest.digest(contents);
+    return String.format("%032X", new BigInteger(1, hash));
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
+
+    ant.get(src: 'http://cdnjs.cloudflare.com/ajax/libs/mathjs/3.2.1/math.min.js',
+            dest: 'src/main/res/raw/math.js')
+
+    assert "6CEC5DD5257A68E172E76FC5BB1EE130C420C0DAC929E3D1955ADFC859D0707F".equals(
+            sha256sum("app/src/main/res/raw/math.js"))
 }
+
