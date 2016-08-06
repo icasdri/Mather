@@ -1,0 +1,58 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_wrapper"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="6dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="6dp"
+        tools:context="org.icasdri.mather.MainActivityFragment"
+        tools:showIn="@layout/main_activity"
+        android:id="@+id/main_recycler_view"
+        />
+
+    <FrameLayout
+        android:id="@+id/main_input_wrapper"
+        android:background="@color/colorPrimaryLight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
+
+        <EditText
+            android:id="@+id/main_input"
+            android:background="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="5dp"
+            android:imeOptions="actionGo"
+            android:inputType="number"
+            android:textSize="28sp"
+            />
+
+        <Button
+            android:id="@+id/main_input_eval_button"
+            android:background="@android:color/transparent"
+            android:textColor="@color/colorAccent"
+            android:layout_width="40dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="4dp"
+            android:text="EVAL"
+            />
+
+    </FrameLayout>
+</RelativeLayout>
+
+
