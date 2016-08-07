@@ -75,7 +75,7 @@ public class MathParser {
         });
     }
 
-    public MathParser(Context context) throws InitializationException {
+    public MathParser(Context context) {
         this.context = context;
     }
 

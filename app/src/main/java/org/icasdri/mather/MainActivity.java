@@ -42,8 +42,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        this.parser = new MathParser(this.getApplicationContext());
         try {
-            this.parser = new MathParser(this.getApplicationContext());
+            this.parser.initialize();
         } catch (MathParser.InitializationException e) {
             Toast errorToast = Toast.makeText(this.getApplicationContext(),
                                               e.getMessage(), Toast.LENGTH_LONG);
