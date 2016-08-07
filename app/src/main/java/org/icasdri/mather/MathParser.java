@@ -96,11 +96,14 @@ public class MathParser {
             return;
         }
         
-        final String mathjsExpression = String.format("parser.eval('%s')", expression);
+        final String mathjsExpression = String.format("parser.eval('%s').toString()", expression);
         this.jsWebView.evaluateJavascript(mathjsExpression, new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
-                if ("null".equals(value)) {
+                if (value.startsWith("\"") && value.endsWith("\"")) {
+                    value = value.substring(1, value.length() - 1);
+                }
+                if (value.length() == 0 || "null".equals(value)) {
                     cb.processResult(new Result(null, ResultType.NONE));
                 } else {
                     cb.processResult(new Result(value, ResultType.ANS));
