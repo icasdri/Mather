@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         this.parser = new MathParser(this.getApplicationContext());
         try {
             this.parser.initialize();
@@ -27,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
                                               e.getMessage(), Toast.LENGTH_LONG);
             errorToast.show();
         }
-
     }
 
     @Override
@@ -44,9 +42,16 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.settings_action) {
-            return true;
+        MainActivityFragment frag = (MainActivityFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.main_fragment);
+
+        switch (id) {
+            case R.id.settings_action:
+                // TODO: actually implement a settings acitivity
+                return true;
+            case R.id.clear_action:
+                frag.clear();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

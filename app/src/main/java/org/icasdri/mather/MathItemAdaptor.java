@@ -29,6 +29,11 @@ public class MathItemAdaptor extends RecyclerView.Adapter<MathItemAdaptor.ViewHo
         this.notifyItemRemoved(position);
     }
 
+    public void clear() {
+        this.list.clear();
+        this.notifyDataSetChanged();
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.math_item, parent, false);

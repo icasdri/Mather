@@ -93,4 +93,9 @@ public class MainActivityFragment extends Fragment {
     void injectUserInput(String s) {
         this.mainInput.getText().append(s);
     }
+
+    void clear() {
+        ((MainActivity) getActivity()).parser.clear(MathParser.doNothingCallback);
+        this.adapter.clear();
+    }
 }
