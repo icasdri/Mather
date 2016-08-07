@@ -10,10 +10,8 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="6dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="6dp"
+        android:paddingTop="0.7dp"
+        android:paddingBottom="0.7dp"
         android:layout_marginBottom="50dp"
         tools:context="org.icasdri.mather.MainActivityFragment"
         tools:showIn="@layout/main_activity"
