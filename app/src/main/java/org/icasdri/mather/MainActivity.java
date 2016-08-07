@@ -8,17 +8,14 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
-import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.io.IOException;
-import java.io.InputStreamReader;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private WebView jsWebView;
+    MathParser parser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,41 +42,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        this.jsWebView = new WebView(getApplicationContext());
-        this.jsWebView.getSettings().setJavaScriptEnabled(true);
-        this.jsWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(false);
-        InputStreamReader reader = new InputStreamReader(
-                getResources().openRawResource(R.raw.math)
-        );
-
-        StringBuilder builder = new StringBuilder();
-        char[] buf = new char[100];
         try {
-            int read = 0;
-            while ((read = reader.read(buf, 0, 100)) > 0){
-                builder.append(buf, 0, read);
-            }
-        } catch (IOException e) {
-            // TODO: handle exception with e.g. Toast
-            throw new RuntimeException(e);
+            this.parser = new MathParser(this.getApplicationContext());
+        } catch (MathParser.InitializationException e) {
+            Toast errorToast = Toast.makeText(this.getApplicationContext(),
+                                              e.getMessage(), Toast.LENGTH_LONG);
+            errorToast.show();
         }
 
-        String mathjs = builder.toString();
-        ValueCallback<String> doNothingCallback = new ValueCallback<String>() {
-            @Override
-            public void onReceiveValue(String value) {
-                // do nothing, there should be no value
-            }
-        };
-
-        this.jsWebView.evaluateJavascript(mathjs, doNothingCallback);
-        this.jsWebView.evaluateJavascript("var parser = math.parser()", doNothingCallback);
-        this.jsWebView.evaluateJavascript("parser.eval('f(x) = x + 2')", new ValueCallback<String>() {
-            @Override
-            public void onReceiveValue(String value) {
-                mainInput.setText(value);
-            }
-        });
     }
 
     @Override
