@@ -1,6 +1,7 @@
 package org.icasdri.mather;
 
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,11 @@ public class MathItemAdaptor extends RecyclerView.Adapter<MathItemAdaptor.ViewHo
         this.notifyItemInserted(list.size());
     }
 
+    public void remove(int position) {
+        this.list.remove(position);
+        this.notifyItemRemoved(position);
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.math_item, parent, false);
@@ -40,6 +46,36 @@ public class MathItemAdaptor extends RecyclerView.Adapter<MathItemAdaptor.ViewHo
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public class TouchHelperCallback extends ItemTouchHelper.Callback {
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            return ItemTouchHelper.Callback.makeMovementFlags(
+                    0,  // drag flags
+                    ItemTouchHelper.START | ItemTouchHelper.END  // swipe flags
+            );
+        }
+
+        @Override
+        public boolean isLongPressDragEnabled() {
+            return false;
+        }
+
+        @Override
+        public boolean isItemViewSwipeEnabled() {
+            return true;
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder vh, RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder vh, int direction) {
+            MathItemAdaptor.this.remove(vh.getAdapterPosition());
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements MathItem.ChangeListener {

@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -70,7 +71,10 @@ public class MainActivityFragment extends Fragment {
         this.recyclerView.setLayoutManager(layoutManager);
 
         this.adapter = new MathItemAdaptor(this);
-        this.recyclerView.setAdapter(adapter);
+        this.recyclerView.setAdapter(this.adapter);
+
+        ItemTouchHelper touchHelper = new ItemTouchHelper(this.adapter.new TouchHelperCallback());
+        touchHelper.attachToRecyclerView(this.recyclerView);
 
         return fragment;
     }
