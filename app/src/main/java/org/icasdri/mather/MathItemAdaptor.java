@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MathItemAdaptor extends RecyclerView.Adapter<MathItemAdaptor.ViewHolder> {
+    private MainActivityFragment frag;
     private List<MathItem> list;
 
-    public MathItemAdaptor() {
+    public MathItemAdaptor(MainActivityFragment frag) {
+        this.frag = frag;
         this.list = new ArrayList<>();
     }
 
@@ -41,13 +43,32 @@ public class MathItemAdaptor extends RecyclerView.Adapter<MathItemAdaptor.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements MathItem.ChangeListener {
-        public TextView inputView;
-        public TextView resultView;
+        private MathItem item;
+        private TextView inputView;
+        private TextView resultView;
 
         public ViewHolder(View v) {
             super(v);
             this.inputView = (TextView) v.findViewById(R.id.math_item_input_view);
             this.resultView = (TextView) v.findViewById(R.id.math_item_result_view);
+
+            this.inputView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MathItemAdaptor.this.frag.injectUserInput(
+                        ViewHolder.this.item.getInput()
+                    );
+                }
+            });
+
+            this.resultView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MathItemAdaptor.this.frag.injectUserInput(
+                        ViewHolder.this.item.getResult().text
+                    );
+                }
+            });
         }
 
         public void updateFrom(MathItem item) {
@@ -63,6 +84,7 @@ public class MathItemAdaptor extends RecyclerView.Adapter<MathItemAdaptor.ViewHo
                         break;
                 }
             }
+            this.item = item;
         }
 
         @Override

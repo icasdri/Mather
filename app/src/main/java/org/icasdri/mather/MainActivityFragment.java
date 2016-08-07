@@ -69,7 +69,7 @@ public class MainActivityFragment extends Fragment {
         this.layoutManager.setStackFromEnd(true);
         this.recyclerView.setLayoutManager(layoutManager);
 
-        this.adapter = new MathItemAdaptor();
+        this.adapter = new MathItemAdaptor(this);
         this.recyclerView.setAdapter(adapter);
 
         return fragment;
@@ -84,5 +84,9 @@ public class MainActivityFragment extends Fragment {
         item.eval(((MainActivity) getActivity()).parser);
 
         this.recyclerView.smoothScrollToPosition(this.adapter.getItemCount());
+    }
+
+    void injectUserInput(String s) {
+        this.mainInput.getText().append(s);
     }
 }
