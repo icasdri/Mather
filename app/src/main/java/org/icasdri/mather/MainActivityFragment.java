@@ -19,7 +19,7 @@ import android.widget.TextView;
  */
 public class MainActivityFragment extends Fragment {
     private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
+    private LinearLayoutManager layoutManager;
 
     private MathItemAdaptor adapter;
     private EditText mainInput;
@@ -66,6 +66,7 @@ public class MainActivityFragment extends Fragment {
         this.recyclerView = (RecyclerView) fragment.findViewById(R.id.main_recycler_view);
 
         this.layoutManager = new LinearLayoutManager(this.getContext());
+        this.layoutManager.setStackFromEnd(true);
         this.recyclerView.setLayoutManager(layoutManager);
 
         this.adapter = new MathItemAdaptor();
@@ -81,5 +82,7 @@ public class MainActivityFragment extends Fragment {
         MathItem item = new MathItem(input);
         this.adapter.add(item);
         item.eval(((MainActivity) getActivity()).parser);
+
+        this.recyclerView.smoothScrollToPosition(this.adapter.getItemCount());
     }
 }
