@@ -3,14 +3,8 @@ package org.icasdri.mather;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.inputmethod.EditorInfo;
-import android.webkit.WebView;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,23 +18,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final EditText mainInput = (EditText) findViewById(R.id.main_input);
-        mainInput.setInputType(InputType.TYPE_CLASS_TEXT
-                + InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-        mainInput.requestFocus();
-
-        mainInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                switch (actionId) {
-                    case EditorInfo.IME_ACTION_GO:
-                        // TODO: actually implement
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
 
         this.parser = new MathParser(this.getApplicationContext());
         try {
