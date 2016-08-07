@@ -20,11 +20,11 @@ public class MathParser {
     }
 
     public class Result {
-        String result;
+        String text;
         ResultType resultType;
 
-        public Result(String result, ResultType resultType) {
-            this.result = result;
+        public Result(String text, ResultType resultType) {
+            this.text = text;
             this.resultType = resultType;
         }
     }
