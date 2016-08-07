@@ -1,4 +1,4 @@
 package org.icasdri.mather;
 
-public class MathItemStore {
+public class MathItemAdaptor {
 }
