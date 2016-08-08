@@ -1,3 +1,11 @@
+/*
+ * Copyright 2016 icasdri
+ *
+ * This file is part of Mather. The original source code for Mather can be
+ * found at <https://github.com/icasdri/Mather>. See COPYING for licensing
+ * details.
+ */
+
 package org.icasdri.mather;
 
 import android.annotation.SuppressLint;

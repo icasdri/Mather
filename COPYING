@@ -1,0 +1,56 @@
+-------------------------------------------------------------------------------
+Mather COPYING
+-------------------------------------------------------------------------------
+
+Mather and all of its constituent files are licensed as follows
+unless otherwise noted.
+
+    Copyright 2016 icasdri
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    A copy of the GNU General Public License can be found in LICENSE.
+    Alternatively, see <http://www.gnu.org/licenses/>.
+
+
+The original source code for Mather can be found at
+<https://github.com/icasdri/Mather>. However, you may have received a modified
+version, in which case contact the author of your version to uphold their
+obligations under the GNU General Public License to provide you the complete
+source code of their derived work.
+
+If you intend to distribute Mather modified or unmodified, please note that
+you are obligated under the GNU General Public License to reproduce the
+above copyright and license notice in full as well as make available the
+complete source code of your version. See the text of the GNU General Public
+License for details.
+
+-------------------------------------------------------------------------------
+
+Mather makes use of and distributes a version of Math.js (unmodified from
+upstream) in its regular builds. The source code for Math.js may be found
+at <https://github.com/josdejong/mathjs>. The license for Math.js is as
+follows.
+
+    Copyright (C) 2013-2016 Jos de Jong wjosdejong@gmail.com
+
+    Licensed under the Apache License, Version 2.0 (the "License"); you
+    may not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+    License for the specific language governing permissions and limitations
+    under the License.
+
