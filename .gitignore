@@ -17,6 +17,3 @@ captures/
 # Ephemeral files
 *.log
 *.swp
-
-# Externally obtained dependency that resides in-tree for build only
-app/src/main/res/raw
