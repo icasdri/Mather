@@ -3,10 +3,10 @@ jdk: openjdk7
 
 android:
   components:
-    - build-tools-23
+    - build-tools-24
     - android-24
     - extra-android-m2repository
 
-  licenses:
-    - 'android-sdk-license-.+'
+  #licenses:
+    #- 'android-sdk-license-.+'
 
