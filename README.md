@@ -7,7 +7,7 @@
 
 ### Building
 
-**Mather** uses the [Gradle](https//gradle.org) build system for compilation, dependency, and asset management (including its external dependency on *Math.js*). 
+**Mather** uses the [Gradle](https://gradle.org) build system for compilation, dependency, and asset management (including its external dependency on *Math.js*). 
 
 To build a debug version of the app, simply make sure you have a modern local Gradle installation, then run the following.  The build has been tested to work with the latest `Gradle 2.14`.
 
@@ -19,4 +19,4 @@ Additionally, you may import the repo as a project into Android Studio just like
 
 ### License
 
-**Mather** is licensed under the GPLv3 and makes use of components under different (GPL-compatible) licenses. See [COPYING](https://github.com/icasdri/Mather/blob/master/COPYING) for details.
+**Mather** is Free Software licensed under the GPLv3+ and makes use of components under different (GPL-compatible) licenses. See [COPYING](https://github.com/icasdri/Mather/blob/master/COPYING) for details.
