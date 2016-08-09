@@ -8,7 +8,6 @@
 
 package org.icasdri.mather;
 
-import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,20 +22,16 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
  * Fragment controlling the main recycler view.
  */
 public class MainActivityFragment extends Fragment {
-    private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
+    private RecyclerView mainRecyclerView;
 
-    private MathItemAdaptor adapter;
+    private MathItemAdaptor mainAdapter;
     private EditText mainInput;
-    private Button evalButton;
 
     public MainActivityFragment() {
     }
@@ -67,28 +62,10 @@ public class MainActivityFragment extends Fragment {
         });
 
         /* User key buttons initialization */
-        GridLayout userKeysContainer = (GridLayout) fragment.findViewById(R.id.main_userkeys_container);
-        final String[] keys = {
-                "7", "8", "9", "/", "(", ")",
-                "4", "5", "6", "*", "[", "]",
-                "1", "2", "3", "-", "%", "^",
-                "0", ".", "-", "+", ",", "DEL"
-        };
-        for (String s : keys) {
-            final Button button = (Button) inflater.inflate(R.layout.userkey_button, null);
-            button.setText(s);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MainActivityFragment.this.injectUserInput(button.getText().toString());
-                }
-            });
-            userKeysContainer.addView(button);
-        }
 
         /* Eval button initialization */
-        this.evalButton = (Button) fragment.findViewById(R.id.main_input_eval_button);
-        this.evalButton.setOnClickListener(new View.OnClickListener() {
+        Button evalButton = (Button) fragment.findViewById(R.id.main_input_eval_button);
+        evalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainActivityFragment.this.evaluateUserInput();
@@ -96,17 +73,17 @@ public class MainActivityFragment extends Fragment {
         });
 
         /* Recycler view initialization */
-        this.recyclerView = (RecyclerView) fragment.findViewById(R.id.main_recycler_view);
+        this.mainRecyclerView = (RecyclerView) fragment.findViewById(R.id.main_recycler_view);
 
-        this.layoutManager = new LinearLayoutManager(this.getContext());
-        this.layoutManager.setStackFromEnd(true);
-        this.recyclerView.setLayoutManager(layoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+        layoutManager.setStackFromEnd(true);
+        this.mainRecyclerView.setLayoutManager(layoutManager);
 
-        this.adapter = new MathItemAdaptor(this);
-        this.recyclerView.setAdapter(this.adapter);
+        this.mainAdapter = new MathItemAdaptor(this);
+        this.mainRecyclerView.setAdapter(this.mainAdapter);
 
-        ItemTouchHelper touchHelper = new ItemTouchHelper(this.adapter.new TouchHelperCallback());
-        touchHelper.attachToRecyclerView(this.recyclerView);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(this.mainAdapter.new TouchHelperCallback());
+        touchHelper.attachToRecyclerView(this.mainRecyclerView);
 
         return fragment;
     }
@@ -116,10 +93,10 @@ public class MainActivityFragment extends Fragment {
         this.mainInput.setText("");
 
         MathItem item = new MathItem(input);
-        this.adapter.add(item);
+        this.mainAdapter.add(item);
         item.eval(((MainActivity) getActivity()).parser);
 
-        this.recyclerView.smoothScrollToPosition(this.adapter.getItemCount());
+        this.mainRecyclerView.smoothScrollToPosition(this.mainAdapter.getItemCount());
     }
 
     void injectUserInput(String s) {
@@ -143,6 +120,6 @@ public class MainActivityFragment extends Fragment {
     }
 
     void clear() {
-        this.adapter.clear();
+        this.mainAdapter.clear();
     }
 }
