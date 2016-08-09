@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Editable;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -99,7 +100,23 @@ public class MainActivityFragment extends Fragment {
     }
 
     void injectUserInput(String s) {
-        this.mainInput.getText().append(s);
+        this.injectUserInput(s, -1, -1);
+    }
+
+    void injectUserInput(String s, int selIndex) {
+        this.injectUserInput(s, selIndex, -1);
+    }
+
+    void injectUserInput(String s, int selStart, int selEnd) {
+        Editable ed = this.mainInput.getText();
+        int origLen = ed.toString().length();
+        ed.append(s);
+
+        if (selStart > 0 && selEnd > 0) {
+            this.mainInput.setSelection(origLen + selStart, selEnd);
+        } else if (selStart > 0) {
+            this.mainInput.setSelection(origLen + selStart);
+        }
     }
 
     void clear() {

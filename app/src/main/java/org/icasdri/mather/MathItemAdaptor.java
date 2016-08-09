@@ -8,6 +8,7 @@
 
 package org.icasdri.mather;
 
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
@@ -113,9 +114,17 @@ public class MathItemAdaptor extends RecyclerView.Adapter<MathItemAdaptor.ViewHo
             this.resultView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MathItemAdaptor.this.frag.injectUserInput(
-                        ViewHolder.this.item.getResult().text
-                    );
+                    MathParser.Result result = ViewHolder.this.item.getResult();
+                    String text = result.text;
+                    int selStart = -1;
+                    int selEnd = -1;
+                    switch (result.resultType) {
+                        case FUNCTION:
+                            selStart = text.indexOf('(') + 1;
+                            selEnd = text.indexOf(')');
+                            break;
+                    }
+                    MathItemAdaptor.this.frag.injectUserInput(text, selStart, selEnd);
                 }
             });
         }
@@ -129,7 +138,13 @@ public class MathItemAdaptor extends RecyclerView.Adapter<MathItemAdaptor.ViewHo
                 switch (result.resultType) {
                     case ANS:
                         this.resultView.setVisibility(View.VISIBLE);
+                        this.resultView.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
                         this.resultView.setText(result.text);
+                        break;
+                    case FUNCTION:
+                        this.resultView.setVisibility(View.VISIBLE);
+                        this.resultView.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
+                        this.resultView.setText("function " + result.text);
                         break;
                 }
             }

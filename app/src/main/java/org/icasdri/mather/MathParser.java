@@ -24,7 +24,7 @@ public class MathParser {
     private boolean initialized;
 
     public enum ResultType {
-        NONE, ANS, ERROR, INIT_ERROR, CLEAR_COMPLETE
+        NONE, ANS, ERROR, FUNCTION, INIT_ERROR, CLEAR_COMPLETE
     }
 
     public class Result {
@@ -113,6 +113,10 @@ public class MathParser {
                 }
                 if (value.length() == 0 || "null".equals(value)) {
                     cb.processResult(new Result(null, ResultType.NONE));
+                } else if (value.startsWith("function")){
+                    // capture the function name and args and return it
+                    String ret = value.substring(9, value.indexOf('{')).trim();
+                    cb.processResult(new Result(ret, ResultType.FUNCTION));
                 } else {
                     cb.processResult(new Result(value, ResultType.ANS));
                 }
