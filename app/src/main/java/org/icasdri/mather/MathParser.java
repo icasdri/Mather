@@ -69,12 +69,12 @@ public class MathParser {
 
         this.jsWebView.evaluateJavascript(mathjsBuilder.toString(), new ValueCallback<String>() {
             @Override
-            public void onReceiveValue(String _) {
+            public void onReceiveValue(String value1) {
                 MathParser.this.jsWebView.evaluateJavascript("var parser = math.parser()",
                         new ValueCallback<String>() {
 
                     @Override
-                    public void onReceiveValue(String _) {
+                    public void onReceiveValue(String value2) {
                         initialized = true;
                     }
 
@@ -129,7 +129,7 @@ public class MathParser {
 
         this.jsWebView.evaluateJavascript("parser.clear()", new ValueCallback<String>() {
             @Override
-            public void onReceiveValue(String _) {
+            public void onReceiveValue(String value) {
                 cb.processResult(new Result(null, ResultType.CLEAR_COMPLETE));
             }
         });
