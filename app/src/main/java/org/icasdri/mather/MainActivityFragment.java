@@ -8,6 +8,7 @@
 
 package org.icasdri.mather;
 
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +23,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -62,6 +65,26 @@ public class MainActivityFragment extends Fragment {
                 }
             }
         });
+
+        /* User key buttons initialization */
+        GridLayout userKeysContainer = (GridLayout) fragment.findViewById(R.id.main_userkeys_container);
+        final String[] keys = {
+                "7", "8", "9", "/", "(", ")",
+                "4", "5", "6", "*", "[", "]",
+                "1", "2", "3", "-", "%", "^",
+                "0", ".", "-", "+", ",", "DEL"
+        };
+        for (String s : keys) {
+            final Button button = (Button) inflater.inflate(R.layout.userkey_button, null);
+            button.setText(s);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainActivityFragment.this.injectUserInput(button.getText().toString());
+                }
+            });
+            userKeysContainer.addView(button);
+        }
 
         /* Eval button initialization */
         this.evalButton = (Button) fragment.findViewById(R.id.main_input_eval_button);
