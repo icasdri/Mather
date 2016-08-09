@@ -18,6 +18,8 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi'] as Set
     }
     buildTypes {
         release {
