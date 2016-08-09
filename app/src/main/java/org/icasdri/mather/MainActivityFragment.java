@@ -120,7 +120,6 @@ public class MainActivityFragment extends Fragment {
     }
 
     void clear() {
-        ((MainActivity) getActivity()).parser.clear(MathParser.doNothingCallback);
         this.adapter.clear();
     }
 }

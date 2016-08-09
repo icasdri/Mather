@@ -8,6 +8,7 @@
 
 package org.icasdri.mather;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -50,18 +51,68 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        MainActivityFragment frag = (MainActivityFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.main_fragment);
-
         switch (id) {
             case R.id.settings_action:
                 // TODO: actually implement a settings acitivity
                 return true;
             case R.id.clear_action:
-                frag.clear();
+                this.clear();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void sleepThreaded(final long millis, final Runnable after) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(millis);
+                } catch (InterruptedException e) {
+                    // just continue if we're interrupted
+                }
+
+                MainActivity.this.runOnUiThread(after);
+            }
+        }).start();
+    }
+
+    void clear() {
+        final MainActivityFragment frag = (MainActivityFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.main_fragment);
+
+        final ProgressDialog progressDialog = ProgressDialog.show(this, null, "Clearing...", true);
+        this.parser.clear(new MathParser.Callback() {
+            @Override
+            public void processResult(final MathParser.Result result) {
+                /* The javascript callback on the parser clearing likes to come back early for
+                   some reason. We wait three and a half seconds for state to stabilize before
+                   returning control to the user. Fragment clearing happens a second before that
+                   to see more natural */
+
+                MainActivity.this.sleepThreaded(2500, new Runnable() {
+                    @Override
+                    public void run() {
+                        frag.clear();
+
+                        MainActivity.this.sleepThreaded(1000, new Runnable() {
+                            @Override
+                            public void run() {
+                                progressDialog.dismiss();
+                                if (result.resultType != MathParser.ResultType.CLEAR_COMPLETE) {
+                                    Toast errorToast = Toast.makeText(
+                                            MainActivity.this.getApplicationContext(),
+                                            "An error may have occurred while clearing.",
+                                            Toast.LENGTH_LONG
+                                    );
+                                    errorToast.show();
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        });
     }
 }
