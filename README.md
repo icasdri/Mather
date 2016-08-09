@@ -1,6 +1,6 @@
 # Mather
 
-**Mather** is a powerful expression-based calculator and general computation engine for Android supporting complex math expressions, unit conversions, variables, unit arithmetic, matrices, and more. Powered by [Math.js](https://mathjs.org/).
+**Mather** is a powerful, simple-to-use, no BS expression-based computation engine for Android. In addition to basic calculator arithmetic, it supports variables, user-defined functions, complex math expression evaluation, trigonometric functions, unit conversions (and more general unit arithmetic), complex numbers, matrices, and more. Powered by [Math.js](https://mathjs.org/).
 
 #### Screenshots
 ![screenshot](https://cloud.githubusercontent.com/assets/9786418/17490863/f0bfd4fe-5d72-11e6-8595-c151bf64b818.png)
