@@ -1,16 +1,10 @@
 package org.icasdri.mather;
 
-import android.app.ActionBar;
-import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.GridView;
-import android.widget.TextView;
+import android.widget.ImageButton;
 
 public class UserKeysAdapter extends BaseAdapter {
     private MainActivityFragment frag;
@@ -43,45 +37,46 @@ public class UserKeysAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, final View convertView, ViewGroup parent) {
-        final FrameLayout button;
-        if (convertView == null) {
-            // if it's not recycled, create it
-            button = (FrameLayout) View.inflate(this.frag.getContext(), R.layout.userkey_button, null);
+        final String text = (String) this.getItem(position);
+
+        View generalButtonView;
+        if (text.equals("DEL") || text.equals("EVAL")) {
+            ImageButton button;
+            if (convertView instanceof ImageButton) {
+                // if we can use a recycled one, do so
+                button = (ImageButton) convertView;
+            } else {
+                button = (ImageButton) View.inflate(
+                        this.frag.getContext(), R.layout.userkey_imagebutton, null);
+            }
+
+            switch (text) {
+                case "DEL":
+                    button.setImageResource(R.drawable.ic_backspace);
+                    break;
+                case "EVAL":
+                    button.setImageResource(R.drawable.ic_send);
+                    break;
+            }
+
+            generalButtonView = button;
         } else {
-            // if it's recycled, use it
-            button = (FrameLayout) convertView;
+            Button button;
+            if (convertView instanceof Button) {
+                // if we can use a recycled one, do so
+                button = (Button) convertView;
+            } else {
+                button = (Button) View.inflate(
+                        this.frag.getContext(), R.layout.userkey_button, null);
+            }
+            button.setText(text);
+
+            generalButtonView = button;
         }
 
-        final TextView internalTextView = (TextView) button.findViewById(R.id.userkey_button_internal_text);
-        String text = (String) this.getItem(position);
-
-
-        int sz; // resource id of padding to be set
-        switch (text) {
-            case "DEL":
-                internalTextView.setBackgroundResource(R.drawable.ic_backspace);
-                sz = R.dimen.userkey_with_icon_size;
-                break;
-            case "EVAL":
-                internalTextView.setBackgroundResource(R.drawable.ic_send);
-                sz = R.dimen.userkey_with_icon_size;
-                break;
-            default:
-                internalTextView.setText(text);
-                sz = R.dimen.userkey_normal_size;
-                break;
-        }
-
-        {
-            int n = (int) this.frag.getResources().getDimension(sz);
-            internalTextView.setWidth(n);
-            internalTextView.setHeight(n);
-        }
-
-        button.setOnClickListener(new View.OnClickListener() {
+        generalButtonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String text = internalTextView.getText().toString();
                 switch (text) {
                     case "DEL":
                         // TODO: handle DEL userkey
@@ -95,6 +90,7 @@ public class UserKeysAdapter extends BaseAdapter {
                 }
             }
         });
-        return button;
+
+        return generalButtonView;
     }
 }
