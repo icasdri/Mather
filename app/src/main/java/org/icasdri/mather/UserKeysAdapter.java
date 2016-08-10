@@ -10,7 +10,7 @@ public class UserKeysAdapter extends BaseAdapter {
     private MainActivityFragment frag;
 
     final String[] keys = {
-            "7", "8", "9", "/", "", "DEL",
+            "7", "8", "9", "/", "=", "DEL",
             "4", "5", "6", "*", "(", ")",
             "1", "2", "3", "-", "[", "]",
             "0", ".", ",", "+", "%", "EVAL"

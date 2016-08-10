@@ -8,6 +8,8 @@
 
 package org.icasdri.mather;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,10 +23,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -39,7 +41,8 @@ public class MainActivityFragment extends Fragment {
     private GridView userKeysGridView;
     private UserKeysAdapter userKeysAdapter;
 
-    private ViewGroup mainInputAreaWrapper;
+    private ViewGroup mainInputAndUserkeysWrapper;
+    private ViewGroup mainInputWrapper;
 
     private boolean userKeysKeyboardInUse;
 
@@ -98,15 +101,16 @@ public class MainActivityFragment extends Fragment {
         this.userKeysAdapter = new UserKeysAdapter(this);
         this.userKeysGridView.setAdapter(this.userKeysAdapter);
 
-        this.mainInputAreaWrapper = (ViewGroup) fragment.findViewById(R.id.main_input_area_wrapper);
-        this.userKeysKeyboardInUse = false;  // make different so change is triggered
+        this.mainInputAndUserkeysWrapper = (ViewGroup) fragment.findViewById(R.id.main_input_and_userkeys_wrapper);
+        this.mainInputWrapper = (ViewGroup) fragment.findViewById(R.id.main_input_wrapper);
 
-        final ViewTreeObserver observer = this.mainInputAreaWrapper.getViewTreeObserver();
+        final ViewTreeObserver observer = this.mainInputAndUserkeysWrapper.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                MainActivityFragment.this.mainInputAreaWrapper
+                MainActivityFragment.this.mainInputAndUserkeysWrapper
                         .getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                MainActivityFragment.this.userKeysKeyboardInUse = false;  // make different so change is triggered
                 MainActivityFragment.this.useUserKeysKeyboard(true);
             }
         });
@@ -117,8 +121,23 @@ public class MainActivityFragment extends Fragment {
     void useUserKeysKeyboard(boolean use) {
         if (use != this.userKeysKeyboardInUse) {
             ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) this.mainRecyclerView.getLayoutParams();
-            System.err.println("WRAPPER HEIGHT: " + this.mainInputAreaWrapper.getHeight());
-            params.bottomMargin = this.mainInputAreaWrapper.getHeight();
+
+            Activity activity = this.getActivity();
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (use) {
+                params.bottomMargin = this.mainInputAndUserkeysWrapper.getHeight();
+                if (activity.getCurrentFocus() != null
+                        && activity.getCurrentFocus().getWindowToken() != null) {
+                    imm.hideSoftInputFromWindow(this.getActivity().getCurrentFocus().getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+//                imm.hideSoftInputFromWindow(this.mainInput.getWindowToken(), 0);
+                this.userKeysGridView.setVisibility(View.VISIBLE);
+            } else {
+                params.bottomMargin = this.mainInputWrapper.getHeight();
+                imm.showSoftInput(this.mainInput, InputMethodManager.SHOW_IMPLICIT);
+                this.userKeysGridView.setVisibility(View.GONE);
+            }
         }
     }
 

@@ -28,7 +28,7 @@ details.
         />
 
     <LinearLayout
-        android:id="@+id/main_input_area_wrapper"
+        android:id="@+id/main_input_and_userkeys_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -36,6 +36,7 @@ details.
         >
 
         <FrameLayout
+            android:id="@+id/main_input_wrapper"
             android:background="@color/colorPrimaryLight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
