@@ -9,6 +9,7 @@
 package org.icasdri.mather;
 
 import android.content.Context;
+import android.media.Image;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,6 +34,7 @@ import android.widget.TextView;
  */
 public class MainActivityFragment extends Fragment {
     private EditText mainInput;
+    private ImageButton evalButton;
 
     private RecyclerView mainRecyclerView;
     private MathItemAdaptor mainAdapter;
@@ -84,13 +86,22 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
-        mainInputSwitcherButton = (ImageButton) fragment.findViewById(R.id.main_input_switcher_button);
-        mainInputSwitcherButton.setOnClickListener(new View.OnClickListener() {
+        this.mainInputSwitcherButton = (ImageButton) fragment.findViewById(R.id.main_input_switcher_button);
+        this.mainInputSwitcherButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.err.println("SWITCHER BUTTON CLICKED");
                 MainActivityFragment.this
                         .useUserKeysKeyboard(!MainActivityFragment.this.userKeysKeyboardInUse);
+            }
+        });
+
+        /* Eval button initialization */
+        this.evalButton = (ImageButton) fragment.findViewById(R.id.main_input_eval_button);
+        this.evalButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivityFragment.this.evaluateUserInput();
             }
         });
 
