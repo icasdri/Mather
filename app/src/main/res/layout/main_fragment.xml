@@ -52,7 +52,8 @@ details.
                 android:layout_marginBottom="5dp"
                 android:imeOptions="actionGo"
                 android:inputType="number"
-                android:textSize="26sp"
+                android:textSize="24sp"
+                android:fontFamily="monospace"
                 />
 
             <ImageButton

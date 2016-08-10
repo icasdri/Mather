@@ -138,12 +138,12 @@ public class MathItemAdaptor extends RecyclerView.Adapter<MathItemAdaptor.ViewHo
                 switch (result.resultType) {
                     case ANS:
                         this.resultView.setVisibility(View.VISIBLE);
-                        this.resultView.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+                        this.resultView.setTypeface(Typeface.MONOSPACE, Typeface.NORMAL);
                         this.resultView.setText(result.text);
                         break;
                     case FUNCTION:
                         this.resultView.setVisibility(View.VISIBLE);
-                        this.resultView.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
+                        this.resultView.setTypeface(Typeface.MONOSPACE, Typeface.ITALIC);
                         this.resultView.setText("function " + result.text);
                         break;
                 }
