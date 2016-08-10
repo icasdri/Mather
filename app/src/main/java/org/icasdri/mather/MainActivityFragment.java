@@ -8,7 +8,6 @@
 
 package org.icasdri.mather;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -24,13 +23,10 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-import javax.net.ssl.ManagerFactoryParameters;
 
 /**
  * Fragment controlling the main recycler view.
@@ -81,6 +77,13 @@ public class MainActivityFragment extends Fragment {
         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
 
         /* Main Input switcher button initialization */
+        this.mainInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                MainActivityFragment.this.useUserKeysKeyboard(!hasFocus);
+            }
+        });
+
         mainInputSwitcherButton = (ImageButton) fragment.findViewById(R.id.main_input_switcher_button);
         mainInputSwitcherButton.setOnClickListener(new View.OnClickListener() {
             @Override
