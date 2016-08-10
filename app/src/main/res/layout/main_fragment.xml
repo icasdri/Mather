@@ -21,7 +21,6 @@ details.
         android:layout_height="match_parent"
         android:paddingTop="0.7dp"
         android:paddingBottom="0.7dp"
-        android:layout_marginBottom="50dp"
         tools:context="org.icasdri.mather.MainActivityFragment"
         tools:showIn="@layout/main_activity"
         android:id="@+id/main_recycler_view"

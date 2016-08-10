@@ -30,6 +30,8 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import javax.net.ssl.ManagerFactoryParameters;
+
 /**
  * Fragment controlling the main recycler view.
  */
@@ -75,6 +77,9 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
+        InputMethodManager imm = (InputMethodManager) this.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+
         /* Main Input switcher button initialization */
         mainInputSwitcherButton = (ImageButton) fragment.findViewById(R.id.main_input_switcher_button);
         mainInputSwitcherButton.setOnClickListener(new View.OnClickListener() {
@@ -107,14 +112,16 @@ public class MainActivityFragment extends Fragment {
         this.mainInputAndUserkeysWrapper = (ViewGroup) fragment.findViewById(R.id.main_input_and_userkeys_wrapper);
         this.mainInputWrapper = (ViewGroup) fragment.findViewById(R.id.main_input_wrapper);
 
+        MainActivityFragment.this.userKeysKeyboardInUse = false;  // make different so change is triggered
+        MainActivityFragment.this.useUserKeysKeyboard(true);
+
         final ViewTreeObserver observer = this.mainInputAndUserkeysWrapper.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                MainActivityFragment.this.mainInputAndUserkeysWrapper
-                        .getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                MainActivityFragment.this.userKeysKeyboardInUse = false;  // make different so change is triggered
-                MainActivityFragment.this.useUserKeysKeyboard(true);
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)
+                        MainActivityFragment.this.mainRecyclerView.getLayoutParams();
+                params.bottomMargin = MainActivityFragment.this.mainInputAndUserkeysWrapper.getHeight();
             }
         });
 
@@ -123,21 +130,23 @@ public class MainActivityFragment extends Fragment {
 
     void useUserKeysKeyboard(boolean use) {
         if (use != this.userKeysKeyboardInUse) {
-            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) this.mainRecyclerView.getLayoutParams();
+            InputMethodManager imm = (InputMethodManager) this.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
             if (use) {
-                params.bottomMargin = this.mainInputAndUserkeysWrapper.getHeight();
-                this.mainInput.setFocusable(false);
                 this.mainInputSwitcherButton.setImageResource(R.drawable.ic_keyboard);
                 this.userKeysGridView.setVisibility(View.VISIBLE);
+                this.userKeysGridView.requestFocus();
                 this.userKeysKeyboardInUse = true;
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
             } else {
-                params.bottomMargin = this.mainInputWrapper.getHeight();
-                this.mainInput.setFocusable(true);
                 this.mainInputSwitcherButton.setImageResource(R.drawable.ic_dialpad);
                 this.userKeysGridView.setVisibility(View.GONE);
                 this.userKeysKeyboardInUse = false;
                 this.mainInput.requestFocus();
+                imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) this.mainRecyclerView.getLayoutParams();
+                params.bottomMargin = MainActivityFragment.this.mainInputWrapper.getHeight();
             }
         }
     }
