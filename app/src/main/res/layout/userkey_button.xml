@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Button xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/userkey_button"
     android:background="@android:color/transparent"
-    android:layout_width="24dp"
-    android:layout_height="24dp"
-/>
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    >
+
+    <TextView
+        android:id="@+id/userkey_button_internal_text"
+        android:layout_width="@dimen/userkey_normal_size"
+        android:layout_height="@dimen/userkey_normal_size"
+        android:layout_gravity="center|center"
+        android:textColor="#665555"
+        android:textSize="22sp"
+        />
+
+</FrameLayout>
+

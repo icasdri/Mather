@@ -68,13 +68,14 @@ details.
 
         </FrameLayout>
 
-        <GridLayout
-            android:id="@+id/main_userkeys_container"
+        <GridView
+            android:id="@+id/userkeys_gridview"
             android:layout_width="match_parent"
             android:layout_height="240dp"
             android:orientation="horizontal"
             android:rowCount="4"
             android:columnCount="6"
+            android:numColumns="6"
             />
 
     </LinearLayout>

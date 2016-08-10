@@ -22,16 +22,20 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.TextView;
 
 /**
  * Fragment controlling the main recycler view.
  */
 public class MainActivityFragment extends Fragment {
-    private RecyclerView mainRecyclerView;
-
-    private MathItemAdaptor mainAdapter;
     private EditText mainInput;
+
+    private RecyclerView mainRecyclerView;
+    private MathItemAdaptor mainAdapter;
+
+    private GridView userKeysGridView;
+    private UserKeysAdapter userKeysAdapter;
 
     public MainActivityFragment() {
     }
@@ -61,8 +65,6 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
-        /* User key buttons initialization */
-
         /* Eval button initialization */
         Button evalButton = (Button) fragment.findViewById(R.id.main_input_eval_button);
         evalButton.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +86,11 @@ public class MainActivityFragment extends Fragment {
 
         ItemTouchHelper touchHelper = new ItemTouchHelper(this.mainAdapter.new TouchHelperCallback());
         touchHelper.attachToRecyclerView(this.mainRecyclerView);
+
+        /* User key buttons initialization */
+        this.userKeysGridView = (GridView) fragment.findViewById(R.id.userkeys_gridview);
+        this.userKeysAdapter = new UserKeysAdapter(this);
+        this.userKeysGridView.setAdapter(this.userKeysAdapter);
 
         return fragment;
     }
