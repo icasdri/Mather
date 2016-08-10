@@ -182,6 +182,14 @@ public class MainActivityFragment extends Fragment {
         }
     }
 
+    void userInputBackspace() {
+        Editable ed = this.mainInput.getText();
+        int origLen = ed.toString().length();
+        if (origLen > 0) {
+            ed.delete(origLen - 1, origLen);
+        }
+    }
+
     void clear() {
         this.mainAdapter.clear();
     }

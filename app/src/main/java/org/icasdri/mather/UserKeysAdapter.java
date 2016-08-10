@@ -79,7 +79,7 @@ public class UserKeysAdapter extends BaseAdapter {
             public void onClick(View v) {
                 switch (text) {
                     case "DEL":
-                        // TODO: handle DEL userkey
+                        UserKeysAdapter.this.frag.userInputBackspace();
                         break;
                     case "EVAL":
                         UserKeysAdapter.this.frag.evaluateUserInput();
