@@ -16,8 +16,8 @@ android {
         applicationId "org.icasdri.mather"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 203
+        versionName '0.2.3'
 
         generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi'] as Set
     }
