@@ -30,7 +30,7 @@ details.
             android:layout_marginStart="14dp"
             android:layout_marginEnd="14dp"
             android:layout_marginBottom="2dp"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:fontFamily="monospace"
             />
 
@@ -46,7 +46,7 @@ details.
             android:gravity="end"
             android:layout_below="@id/math_item_input_view"
             android:layout_alignParentEnd="true"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:fontFamily="monospace"
             />
 

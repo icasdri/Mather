@@ -62,7 +62,7 @@ details.
                 android:layout_marginBottom="5dp"
                 android:imeOptions="actionGo"
                 android:inputType="number"
-                android:textSize="22sp"
+                android:textSize="21sp"
                 android:fontFamily="monospace"
                 />
 
