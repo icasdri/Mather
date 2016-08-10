@@ -27,6 +27,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 /**
@@ -44,6 +45,7 @@ public class MainActivityFragment extends Fragment {
     private ViewGroup mainInputAndUserkeysWrapper;
     private ViewGroup mainInputWrapper;
 
+    private ImageButton mainInputSwitcherButton;
     private boolean userKeysKeyboardInUse;
 
     public MainActivityFragment() {
@@ -59,7 +61,6 @@ public class MainActivityFragment extends Fragment {
 
         this.mainInput.setInputType(InputType.TYPE_CLASS_TEXT
                 + InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-        this.mainInput.requestFocus();
 
         this.mainInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -74,12 +75,14 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
-        /* Eval button initialization */
-        Button evalButton = (Button) fragment.findViewById(R.id.main_input_eval_button);
-        evalButton.setOnClickListener(new View.OnClickListener() {
+        /* Main Input switcher button initialization */
+        mainInputSwitcherButton = (ImageButton) fragment.findViewById(R.id.main_input_switcher_button);
+        mainInputSwitcherButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivityFragment.this.evaluateUserInput();
+                System.err.println("SWITCHER BUTTON CLICKED");
+                MainActivityFragment.this
+                        .useUserKeysKeyboard(!MainActivityFragment.this.userKeysKeyboardInUse);
             }
         });
 
@@ -122,21 +125,19 @@ public class MainActivityFragment extends Fragment {
         if (use != this.userKeysKeyboardInUse) {
             ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) this.mainRecyclerView.getLayoutParams();
 
-            Activity activity = this.getActivity();
-            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             if (use) {
                 params.bottomMargin = this.mainInputAndUserkeysWrapper.getHeight();
-                if (activity.getCurrentFocus() != null
-                        && activity.getCurrentFocus().getWindowToken() != null) {
-                    imm.hideSoftInputFromWindow(this.getActivity().getCurrentFocus().getWindowToken(),
-                            InputMethodManager.HIDE_NOT_ALWAYS);
-                }
-//                imm.hideSoftInputFromWindow(this.mainInput.getWindowToken(), 0);
+                this.mainInput.setFocusable(false);
+                this.mainInputSwitcherButton.setImageResource(R.drawable.ic_keyboard);
                 this.userKeysGridView.setVisibility(View.VISIBLE);
+                this.userKeysKeyboardInUse = true;
             } else {
                 params.bottomMargin = this.mainInputWrapper.getHeight();
-                imm.showSoftInput(this.mainInput, InputMethodManager.SHOW_IMPLICIT);
+                this.mainInput.setFocusable(true);
+                this.mainInputSwitcherButton.setImageResource(R.drawable.ic_dialpad);
                 this.userKeysGridView.setVisibility(View.GONE);
+                this.userKeysKeyboardInUse = false;
+                this.mainInput.requestFocus();
             }
         }
     }

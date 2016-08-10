@@ -56,15 +56,14 @@ details.
                 android:textSize="26sp"
                 />
 
-            <Button
-                android:id="@+id/main_input_eval_button"
+            <ImageButton
+                android:id="@+id/main_input_switcher_button"
                 android:background="@android:color/transparent"
-                android:textColor="@color/colorAccent"
+                android:src="@drawable/ic_keyboard"
                 android:layout_width="40dp"
                 android:layout_height="24dp"
                 android:layout_gravity="end|center_vertical"
                 android:layout_marginEnd="4dp"
-                android:text="EVAL"
                 />
 
         </FrameLayout>
