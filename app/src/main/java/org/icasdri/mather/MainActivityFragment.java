@@ -19,10 +19,12 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -36,6 +38,10 @@ public class MainActivityFragment extends Fragment {
 
     private GridView userKeysGridView;
     private UserKeysAdapter userKeysAdapter;
+
+    private ViewGroup mainInputAreaWrapper;
+
+    private boolean userKeysKeyboardInUse;
 
     public MainActivityFragment() {
     }
@@ -92,7 +98,28 @@ public class MainActivityFragment extends Fragment {
         this.userKeysAdapter = new UserKeysAdapter(this);
         this.userKeysGridView.setAdapter(this.userKeysAdapter);
 
+        this.mainInputAreaWrapper = (ViewGroup) fragment.findViewById(R.id.main_input_area_wrapper);
+        this.userKeysKeyboardInUse = false;  // make different so change is triggered
+
+        final ViewTreeObserver observer = this.mainInputAreaWrapper.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                MainActivityFragment.this.mainInputAreaWrapper
+                        .getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                MainActivityFragment.this.useUserKeysKeyboard(true);
+            }
+        });
+
         return fragment;
+    }
+
+    void useUserKeysKeyboard(boolean use) {
+        if (use != this.userKeysKeyboardInUse) {
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) this.mainRecyclerView.getLayoutParams();
+            System.err.println("WRAPPER HEIGHT: " + this.mainInputAreaWrapper.getHeight());
+            params.bottomMargin = this.mainInputAreaWrapper.getHeight();
+        }
     }
 
     void evaluateUserInput() {
