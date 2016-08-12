@@ -1,6 +1,19 @@
 # Mather
 
-**Mather** is a powerful, simple-to-use, no BS expression-based computation engine for Android. In addition to basic calculator arithmetic, it supports variables, user-defined functions, complex math expression evaluation, trigonometric functions, unit conversions (and more general unit arithmetic), complex numbers, matrices, and more. Powered by [Math.js](https://mathjs.org/).
+
+**Mather** is a powerful, simple-to-use, no BS expression-based computation engine for Android. Powered by [Math.js](https://mathjs.org/). 
+
+[![F-Droid](https://f-droid.org/wiki/images/0/06/F-Droid-button_get-it-on.png)](https://f-droid.org/repository/browse/?fdid=org.icasdri.mather)
+
+In addition to basic calculator arithmetic, Mather supports...
+
+* Variables
+* User-defined functions
+* Complex math expression evaluation
+* Trigonometric functions
+* Unit conversions (and more general unit arithmetic)
+* Complex numbers
+* Matrices, and more. 
 
 #### Screenshots
 ![screenshot](https://cloud.githubusercontent.com/assets/9786418/17490863/f0bfd4fe-5d72-11e6-8595-c151bf64b818.png)
