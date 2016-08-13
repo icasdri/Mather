@@ -166,14 +166,17 @@ public class MainActivityFragment extends Fragment {
     }
 
     void evaluateUserInput() {
-        String input = this.mainInput.getText().toString();
-        this.mainInput.setText("");
+        String input = this.mainInput.getText().toString().trim();
 
-        MathItem item = new MathItem(input);
-        this.mainAdapter.add(item);
-        item.eval(((MainActivity) getActivity()).parser);
+        if (input.length() > 0) {
+            this.mainInput.setText("");
 
-        this.mainRecyclerView.smoothScrollToPosition(this.mainAdapter.getItemCount());
+            MathItem item = new MathItem(input);
+            this.mainAdapter.add(item);
+            item.eval(((MainActivity) getActivity()).parser);
+
+            this.mainRecyclerView.smoothScrollToPosition(this.mainAdapter.getItemCount());
+        }
     }
 
     void injectUserInput(String s) {
