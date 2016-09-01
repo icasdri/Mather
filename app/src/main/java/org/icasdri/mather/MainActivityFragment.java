@@ -216,8 +216,4 @@ public class MainActivityFragment extends Fragment {
     void clear() {
         this.mainAdapter.clear();
     }
-
-    void showEditUserKeyDialog(final int keyPosition, final SharedPreferences prefs) {
-        this.userKeysAdapter.notifyDataSetChanged();
-    }
 }

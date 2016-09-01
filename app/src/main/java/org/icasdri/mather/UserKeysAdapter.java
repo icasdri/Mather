@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -44,7 +46,7 @@ public class UserKeysAdapter extends BaseAdapter {
         if (needPopulateWithDefault) {
             try {
                 this.keys = new JSONArray(UserKeysAdapter.defaultKeys);
-                this.commitChangesToUserKeys();
+                this.applyChangesToUserKeys();
             } catch (JSONException e) {
                 // this should not happen
                 throw new RuntimeException(e);
@@ -52,11 +54,12 @@ public class UserKeysAdapter extends BaseAdapter {
         }
     }
 
-    void commitChangesToUserKeys() {
+    void applyChangesToUserKeys() {
+        this.notifyDataSetChanged();
         SharedPreferences prefs = this.frag.getSharedPreferences();
         prefs.edit()
              .putString("userkeys_arr", this.keys.toString())
-             .commit();
+             .apply();
     }
 
     @Override
@@ -143,8 +146,8 @@ public class UserKeysAdapter extends BaseAdapter {
             public boolean onLongClick(View v) {
                 boolean longClickConsumed = false;
                 final SharedPreferences prefs = UserKeysAdapter.this.frag.getSharedPreferences();
-                if (prefs.getBoolean("pref_lock_userkeys", false)) {
-                    UserKeysAdapter.this.frag.showEditUserKeyDialog(position, prefs);
+                if (!prefs.getBoolean("pref_lock_userkeys", false)) {
+                    UserKeysAdapter.this.showEditUserKeyDialog(position, prefs);
                     longClickConsumed = true;
                 }
                 return longClickConsumed;
@@ -152,5 +155,23 @@ public class UserKeysAdapter extends BaseAdapter {
         });
 
         return generalButtonView;
+    }
+
+    void showEditUserKeyDialog(final int position, final SharedPreferences prefs) {
+        new MaterialDialog.Builder(this.frag.getContext())
+                .title(R.string.prompt_userkeys_edit_title)
+                .content(R.string.prompt_userkeys_edit_desc)
+                .input(null, null, new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                        try {
+                            UserKeysAdapter.this.keys.put(position, input);
+                            UserKeysAdapter.this.applyChangesToUserKeys();
+                        } catch (JSONException e) {
+                            // shouldn't happen, it's just a string
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }).show();
     }
 }

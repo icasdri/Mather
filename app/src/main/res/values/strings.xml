@@ -4,5 +4,7 @@
     <string name="clear_action">Clear</string>
     <string name="pref_lock_userkeys">Lock Changes to Calculator-like Keyboard</string>
     <string name="pref_lock_userkeys_desc">Prevents editing of the keys on the keyboard by long-pressing</string>
+    <string name="prompt_userkeys_edit_title">Edit Key</string>
+    <string name="prompt_userkeys_edit_desc">Enter what you would like this key to be, either as a literal string or a special keycode like EVAL or DEL.</string>
     <string name="settings_title">Settings</string>
 </resources>
