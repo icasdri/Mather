@@ -8,6 +8,8 @@
 
 package org.icasdri.mather;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -54,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
         switch (id) {
             case R.id.settings_action:
                 // TODO: actually implement a settings acitivity
+                Fragment settingsFragment = new SettingsFragment();
+                FragmentTransaction transaction = this.getFragmentManager().beginTransaction();
+                transaction.replace(R.id.main_fragment, settingsFragment);
+                transaction.commit();
                 return true;
             case R.id.clear_action:
                 this.clear();

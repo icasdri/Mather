@@ -9,7 +9,8 @@
 package org.icasdri.mather;
 
 import android.content.Context;
-import android.media.Image;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,6 +29,8 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import org.json.JSONArray;
 
 /**
  * Fragment controlling the main recycler view.
@@ -51,9 +54,14 @@ public class MainActivityFragment extends Fragment {
     public MainActivityFragment() {
     }
 
+    SharedPreferences getSharedPreferences() {
+        return PreferenceManager.getDefaultSharedPreferences(this.getContext());
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        final SharedPreferences prefs = this.getSharedPreferences();
         View fragment = inflater.inflate(R.layout.main_fragment, container, false);
 
         /* Main input field initialization */
@@ -209,5 +217,9 @@ public class MainActivityFragment extends Fragment {
 
     void clear() {
         this.mainAdapter.clear();
+    }
+
+    void showEditUserKeyDialog(final int keyPosition, final SharedPreferences prefs) {
+        this.userKeysAdapter.notifyDataSetChanged();
     }
 }

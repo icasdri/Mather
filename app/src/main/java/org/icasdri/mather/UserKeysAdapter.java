@@ -1,15 +1,23 @@
 package org.icasdri.mather;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 public class UserKeysAdapter extends BaseAdapter {
     private MainActivityFragment frag;
 
-    final String[] keys = {
+    JSONArray keys;
+
+    private static final String[] defaultKeys = {
             "7", "8", "9", "/", "%", "DEL",
             "4", "5", "6", "*", "(", ")",
             "1", "2", "3", "-", "[", "]",
@@ -18,16 +26,56 @@ public class UserKeysAdapter extends BaseAdapter {
 
     public UserKeysAdapter(MainActivityFragment frag) {
         this.frag = frag;
+
+        SharedPreferences prefs = this.frag.getSharedPreferences();
+        String rawKeysJson = prefs.getString("userkeys_arr", null);
+        boolean needPopulateWithDefault = true;
+        if (rawKeysJson != null) {
+            try {
+                this.keys = new JSONArray(rawKeysJson);
+                needPopulateWithDefault = false;
+            } catch (JSONException e) {
+                // TODO: wrap exception and pass it higher (we're handling it too low here)
+                Toast errorToast = Toast.makeText(this.frag.getActivity().getApplicationContext(),
+                        "Failed to populate custom userkeys, populating default", Toast.LENGTH_LONG);
+                errorToast.show();
+            }
+        }
+
+        if (needPopulateWithDefault) {
+            try {
+                this.keys = new JSONArray(UserKeysAdapter.defaultKeys);
+                this.commitChangesToUserKeys();
+            } catch (JSONException e) {
+                // this should not happen
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    void commitChangesToUserKeys() {
+        SharedPreferences prefs = this.frag.getSharedPreferences();
+        prefs.edit()
+             .putString("userkeys_arr", this.keys.toString())
+             .commit();
     }
 
     @Override
     public int getCount() {
-        return keys.length;
+        return keys.length();
     }
 
     @Override
     public Object getItem(int position) {
-        return keys[position];
+        try {
+            return keys.getString(position);
+        } catch (JSONException e) {
+            // TODO: wrap exception and pass it higher (we're handling it too low here)
+            Toast errorToast = Toast.makeText(this.frag.getActivity().getApplicationContext(),
+                    "Failed to populate custom userkeys, populating default", Toast.LENGTH_LONG);
+            errorToast.show();
+            return "0";
+        }
     }
 
     @Override
@@ -36,7 +84,7 @@ public class UserKeysAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, final View convertView, ViewGroup parent) {
+    public View getView(final int position, final View convertView, ViewGroup parent) {
         final String text = (String) this.getItem(position);
 
         View generalButtonView;
@@ -88,6 +136,19 @@ public class UserKeysAdapter extends BaseAdapter {
                         UserKeysAdapter.this.frag.injectUserInput(text);
                         break;
                 }
+            }
+        });
+
+        generalButtonView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                boolean longClickConsumed = false;
+                final SharedPreferences prefs = UserKeysAdapter.this.frag.getSharedPreferences();
+                if (prefs.getBoolean("pref_lock_userkeys", false)) {
+                    UserKeysAdapter.this.frag.showEditUserKeyDialog(position, prefs);
+                    longClickConsumed = true;
+                }
+                return longClickConsumed;
             }
         });
 

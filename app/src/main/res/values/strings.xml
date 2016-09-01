@@ -2,4 +2,6 @@
     <string name="app_name">Mather</string>
     <string name="settings_action">Settings</string>
     <string name="clear_action">Clear</string>
+    <string name="pref_lock_userkeys">Lock Changes to Calculator-like Keyboard</string>
+    <string name="pref_lock_userkeys_desc">Prevents editing of the keys on the keyboard by long-pressing</string>
 </resources>

@@ -43,6 +43,8 @@ dependencies {
     compile 'com.android.support:cardview-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
 
+    compile 'com.afollestad.material-dialogs:core:0.9.0.1'
+
     ant.get(src: 'http://cdnjs.cloudflare.com/ajax/libs/mathjs/3.2.1/math.min.js',
             dest: file('src/main/res/raw/math.js'))
 
