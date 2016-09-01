@@ -172,8 +172,14 @@ public class UserKeysAdapter extends BaseAdapter {
                     @Override
                     public void onInput(MaterialDialog dialog, CharSequence input) {
                         try {
-                            UserKeysAdapter.this.keys.put(position, input);
-                            UserKeysAdapter.this.applyChangesToUserKeys();
+                            String s = input.toString().trim();
+                            if (s.length() > 0) {
+                                if (s.equals("EMPTY")) {
+                                    s = "";
+                                }
+                                UserKeysAdapter.this.keys.put(position, s);
+                                UserKeysAdapter.this.applyChangesToUserKeys();
+                            }
                         } catch (JSONException e) {
                             // shouldn't happen, it's just a string
                             throw new RuntimeException(e);
