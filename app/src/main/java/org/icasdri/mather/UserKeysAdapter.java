@@ -27,7 +27,10 @@ public class UserKeysAdapter extends BaseAdapter {
 
     public UserKeysAdapter(MainActivityFragment frag) {
         this.frag = frag;
+        reload();
+    }
 
+    void reload() {
         SharedPreferences prefs = this.frag.getSharedPreferences();
         String rawKeysJson = prefs.getString("userkeys_arr", null);
         boolean needPopulateWithDefault = true;
@@ -44,13 +47,17 @@ public class UserKeysAdapter extends BaseAdapter {
         }
 
         if (needPopulateWithDefault) {
-            try {
-                this.keys = new JSONArray(UserKeysAdapter.defaultKeys);
-                this.applyChangesToUserKeys();
-            } catch (JSONException e) {
-                // this should not happen
-                throw new RuntimeException(e);
-            }
+            this.resetUserKeysToDefault();
+        }
+    }
+
+    void resetUserKeysToDefault() {
+        try {
+            this.keys = new JSONArray(UserKeysAdapter.defaultKeys);
+            this.applyChangesToUserKeys();
+        } catch (JSONException e) {
+            // this should not happen
+            throw new RuntimeException(e);
         }
     }
 

@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Mather</string>
+    <string name="gen_yes">Yes</string>
+    <string name="gen_no">No</string>
+    <string name="gen_reset">Reset</string>
+    <string name="gen_cancel">Cancel</string>
     <string name="settings_action">Settings</string>
     <string name="clear_action">Clear</string>
     <string name="pref_lock_userkeys">Lock Changes to Calculator-like Keyboard</string>
@@ -7,4 +11,8 @@
     <string name="prompt_userkeys_edit_title">Edit Key</string>
     <string name="prompt_userkeys_edit_desc">Enter what you would like this key to be, either as a literal string or a special keycode like EVAL or DEL.</string>
     <string name="settings_title">Settings</string>
+    <string name="pref_reset_userkeys">Reset Calculator-like Keyboard</string>
+    <string name="pref_reset_userkeys_desc">Reset all changes made to the calculator-like keyboard, restoring the default.</string>
+    <string name="prompt_reset_userkeys_title">Reset Calculator-like Keyboard</string>
+    <string name="prompt_reset_userkeys_desc">Reset all changes made to the calculator-like keyboard?</string>
 </resources>

@@ -148,6 +148,12 @@ public class MainActivityFragment extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.userKeysAdapter.reload();
+    }
+
     void useUserKeysKeyboard(boolean use) {
         if (use != this.userKeysKeyboardInUse) {
             InputMethodManager imm = (InputMethodManager) this.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
