@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright 2016 icasdri
+
+This file is part of Mather. The original source code for Mather can be
+found at <https://github.com/icasdri/Mather>. See COPYING for licensing
+details.
+-->
+
 <ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/userkey_imagebutton"
     android:layout_width="wrap_content"

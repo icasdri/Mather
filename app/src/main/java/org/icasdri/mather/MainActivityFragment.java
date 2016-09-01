@@ -30,8 +30,6 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-
 /**
  * Fragment controlling the main recycler view.
  */

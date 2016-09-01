@@ -1,7 +1,6 @@
 package org.icasdri.mather;
 
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
