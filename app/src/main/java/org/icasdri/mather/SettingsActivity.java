@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 public class SettingsActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setTitle(this.getResources().getString(R.string.settings_title));
         this.setContentView(R.layout.settings_activity);
     }
 
