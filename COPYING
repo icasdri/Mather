@@ -35,10 +35,12 @@ License for details.
 
 -------------------------------------------------------------------------------
 
-Mather makes use of and distributes a version of Math.js (unmodified from
-upstream) in its regular builds. The source code for Math.js may be found
-at <https://github.com/josdejong/mathjs>. The license for Math.js is as
-follows.
+For almost all calculation/computation capabilities, Mather uses a version of
+Math.js unmodified from upstream; the original source code may be found at
+
+    <https://github.com/josdejong/mathjs>.
+    
+The license for Math.js is as follows. 
 
     Copyright (C) 2013-2016 Jos de Jong wjosdejong@gmail.com
 
@@ -53,6 +55,37 @@ follows.
     WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
     License for the specific language governing permissions and limitations
     under the License.
+
+-------------------------------------------------------------------------------
+
+For in-app dialog prompts, Mathers uses a version of Material Dialogs
+unmodified from upstream; the original source code may be found at
+
+    <https://github.com/afollestad/material-dialogs>.
+    
+The license for Material Dialogs is as follows.
+
+    The MIT License (MIT)
+
+    Copyright (c) 2014-2016 Aidan Michael Follestad
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
 
 -------------------------------------------------------------------------------
 
