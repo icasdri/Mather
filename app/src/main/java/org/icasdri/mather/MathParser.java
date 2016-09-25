@@ -27,7 +27,7 @@ public class MathParser {
         NONE, ANS, ERROR, FUNCTION, INIT_ERROR, CLEAR_COMPLETE
     }
 
-    public class Result {
+    public static class Result {
         String text;
         ResultType resultType;
 
