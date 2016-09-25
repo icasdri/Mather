@@ -42,7 +42,19 @@ public class MathItem {
     }
 
     public void eval(MathParser parser) {
-        parser.eval(this.input, new MathParser.Callback() {
+        if (this.input.startsWith("debug")) {
+            for (String a : this.input.split("\\s+")) {
+                switch (a) {
+                    case "resultview":
+                        this.result = new MathParser.Result(
+                                            "Result View Here!",
+                                            MathParser.ResultType.ANS);
+                        break;
+                    default: break;
+                    case "debug": break;
+                }
+            }
+        } else parser.eval(this.input, new MathParser.Callback() {
             @Override
             public void processResult(MathParser.Result result) {
                 MathItem.this.result = result;
