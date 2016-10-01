@@ -29,9 +29,9 @@ android {
     }
 }
 
-String sha256sum(File file) {
+String sha384sum(File file) {
     byte[] contents = java.nio.file.Files.readAllBytes(file.toPath());
-    java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
+    java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-384");
     byte[] hash = digest.digest(contents);
     return String.format("%032X", new BigInteger(1, hash));
 }
@@ -45,10 +45,22 @@ dependencies {
 
     compile 'com.afollestad.material-dialogs:core:0.9.0.2'
 
-    ant.get(src: 'http://cdnjs.cloudflare.com/ajax/libs/mathjs/3.2.1/math.min.js',
-            dest: file('src/main/res/raw/math.js'))
+    File tmpMathjsTgz = File.createTempFile("matherBuildTmp", "mathjs_npm.tgz", file('.'))
+    tmpMathjsTgz.deleteOnExit();
 
-    assert '6CEC5DD5257A68E172E76FC5BB1EE130C420C0DAC929E3D1955ADFC859D0707F'.equals(
-            sha256sum(file('src/main/res/raw/math.js')))
+    ant.get(src: 'https://registry.npmjs.org/mathjs/-/mathjs-3.5.3.tgz',
+            dest: tmpMathjsTgz)
+
+    assert 'E57014556DB9E4B33F1703ABAD75EFFD33C90F14D806D0B0D81FF7896813998D9D2E424328EEF7C41288EA23DF699CFA'
+            .equals(sha384sum(tmpMathjsTgz))
+
+    tarTree(resources.gzip(tmpMathjsTgz)).matching {
+        include 'package/dist/math.min.js'
+    }.visit {FileVisitDetails v ->
+        if (!v.isDirectory()) {
+            v.copyTo(file('src/main/res/raw/math.js'))
+            v.stopVisiting();
+        }
+    }
 }
 
