@@ -36,6 +36,39 @@ String sha384sum(File file) {
     return String.format("%032X", new BigInteger(1, hash));
 }
 
+void retrieveMathjs(String verWithHash) {
+    String[] v = verWithHash.split('::')
+
+    File mathjsFile = file('src/main/res/raw/math.js');
+
+    boolean need = true;
+    if (mathjsFile.isFile()) mathjsFile.withReader { reader ->
+        char[] arr = new char[500];
+        reader.read(arr, 0, 500);
+        need = !new String(arr).contains(String.format("version %s", v[0]))
+    }
+
+    if (need) {
+        File tmpMathjsTgz = File.createTempFile("matherBuildTmp", "mathjs_npm.tgz", file('.'))
+
+        ant.get(src: String.format('https://registry.npmjs.org/mathjs/-/mathjs-%s.tgz', v[0]),
+                dest: tmpMathjsTgz)
+
+        assert v[1].toUpperCase().equals(sha384sum(tmpMathjsTgz))
+
+        tarTree(resources.gzip(tmpMathjsTgz)).matching {
+            include 'package/dist/math.min.js'
+        }.visit {FileVisitDetails f ->
+            if (!f.isDirectory()) {
+                f.copyTo(mathjsFile)
+                f.stopVisiting();
+            }
+        }
+
+        tmpMathjsTgz.delete();
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
@@ -45,22 +78,6 @@ dependencies {
 
     compile 'com.afollestad.material-dialogs:core:0.9.0.2'
 
-    File tmpMathjsTgz = File.createTempFile("matherBuildTmp", "mathjs_npm.tgz", file('.'))
-    tmpMathjsTgz.deleteOnExit();
-
-    ant.get(src: 'https://registry.npmjs.org/mathjs/-/mathjs-3.5.3.tgz',
-            dest: tmpMathjsTgz)
-
-    assert 'E57014556DB9E4B33F1703ABAD75EFFD33C90F14D806D0B0D81FF7896813998D9D2E424328EEF7C41288EA23DF699CFA'
-            .equals(sha384sum(tmpMathjsTgz))
-
-    tarTree(resources.gzip(tmpMathjsTgz)).matching {
-        include 'package/dist/math.min.js'
-    }.visit {FileVisitDetails v ->
-        if (!v.isDirectory()) {
-            v.copyTo(file('src/main/res/raw/math.js'))
-            v.stopVisiting();
-        }
-    }
+    retrieveMathjs('3.5.3::e57014556db9e4b33f1703abad75effd33c90f14d806d0b0d81ff7896813998d9d2e424328eef7c41288ea23df699cfa')
 }
 
