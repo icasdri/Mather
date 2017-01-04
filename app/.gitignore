@@ -1,1 +1,4 @@
 /build
+
+# obtained from NPM during build
+/src/main/res/raw/math.js
