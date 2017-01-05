@@ -1,3 +1,11 @@
+/*
+ * Copyright 2016-2017 icasdri
+ *
+ * This file is part of Mather. The original source code for Mather can be
+ * found at <https://github.com/icasdri/Mather>. See COPYING for licensing
+ * details.
+ */
+
 package org.icasdri.mather;
 
 import android.content.SharedPreferences;
@@ -127,6 +135,7 @@ public class UserKeysAdapter extends BaseAdapter {
                         this.frag.getContext(), R.layout.userkey_button, null);
             }
             button.setText(text);
+            button.setTransformationMethod(null);
 
             generalButtonView = button;
         }
