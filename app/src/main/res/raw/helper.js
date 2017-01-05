@@ -9,6 +9,10 @@
  */
 
 var parser = null;
+var formatArgs = {
+    precision: 11,
+    exponential: {lower: 1e-4, upper: 1e+7}
+};
 
 function evaluate(expr) {
     if (parser == null) {
@@ -30,7 +34,7 @@ function evaluate(expr) {
     } else if (result == null) {
         return "n"
     } else {
-        return "s" + result.toString();
+        return "s" + math.format(result, formatArgs);
     }
 }
 
