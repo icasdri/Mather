@@ -35,7 +35,7 @@ To get rid of a previous calculation that may be cluttering your view, simply sw
 
 **Mather** uses the [Gradle](https://gradle.org) build system for compilation, dependency, and asset management (including its external dependency on *Math.js*).
 
-To build a debug version of the app, make sure you have a modern local Gradle installation in addition to the Android SDK and Build Tools. Then run the following.  The build has been tested to work with the latest `Gradle 2.14`, `Android SDK 25`, and `Build Tools 24`.
+To build a debug version of the app, make sure you have a modern local Gradle installation in addition to the Android SDK and Build Tools. Then run the following.  The build has been tested to work with the latest `Gradle 3.2`, `Android SDK 25`, and `Build Tools 25`.
 
 ```
 gradle build
