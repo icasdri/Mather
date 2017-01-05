@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 icasdri
+ * Copyright 2016-2017 icasdri
  *
  * This file is part of Mather. The original source code for Mather can be
  * found at <https://github.com/icasdri/Mather>. See COPYING for licensing

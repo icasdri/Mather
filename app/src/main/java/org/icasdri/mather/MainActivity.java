@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 icasdri
+ * Copyright 2016-2017 icasdri
  *
  * This file is part of Mather. The original source code for Mather can be
  * found at <https://github.com/icasdri/Mather>. See COPYING for licensing
@@ -29,13 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         this.parser = new MathParser(this.getApplicationContext());
-        try {
-            this.parser.initialize();
-        } catch (MathParser.InitializationException e) {
-            Toast errorToast = Toast.makeText(this.getApplicationContext(),
-                                              e.getMessage(), Toast.LENGTH_LONG);
-            errorToast.show();
-        }
+        this.parser.initialize();
     }
 
     @Override
@@ -102,11 +96,21 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 progressDialog.dismiss();
+                                String errorMessage = "";
+                                switch (result.resultType) {
+                                    case CLEAR_ERROR:
+                                        errorMessage = result.text;
+                                        break;
+                                    default:
+                                        errorMessage = "An unexpected error occurred while clearing.";
+                                        break;
+                                    case CLEAR_COMPLETE:
+                                }
                                 if (result.resultType != MathParser.ResultType.CLEAR_COMPLETE) {
                                     Toast errorToast = Toast.makeText(
-                                            MainActivity.this.getApplicationContext(),
-                                            "An error may have occurred while clearing.",
-                                            Toast.LENGTH_LONG
+                                        MainActivity.this.getApplicationContext(),
+                                        errorMessage,
+                                        Toast.LENGTH_LONG
                                     );
                                     errorToast.show();
                                 }

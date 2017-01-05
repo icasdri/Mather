@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 icasdri
+ * Copyright 2016-2017 icasdri
  *
  * This file is part of Mather. The original source code for Mather can be
  * found at <https://github.com/icasdri/Mather>. See COPYING for licensing
@@ -24,7 +24,7 @@ public class MathParser {
     private boolean initialized;
 
     public enum ResultType {
-        NONE, ANS, ERROR, FUNCTION, INIT_ERROR, CLEAR_COMPLETE
+        NONE, ANS, ERROR, FUNCTION, INIT_ERROR, CLEAR_COMPLETE, CLEAR_ERROR
     }
 
     public static class Result {
@@ -45,39 +45,34 @@ public class MathParser {
         @Override public void processResult(Result result) { /* do nothing */ }
     };
 
-    public class InitializationException extends Exception {
-        public InitializationException(String message) {
-            super(message);
-        }
-    }
-
-    private void loadMathJsLibrary() throws InitializationException {
+    private void evaluateJavascriptFromResource(int resourceId, ValueCallback<String> cb) {
         InputStreamReader reader = new InputStreamReader(
-                this.context.getResources().openRawResource(R.raw.math)
+            this.context.getResources().openRawResource(resourceId)
         );
 
-        StringBuilder mathjsBuilder = new StringBuilder();
-        char[] buf = new char[100];
+        StringBuilder jsBuilder = new StringBuilder();
+        char[] buf = new char[1024];
         try {
             int read = 0;
-            while ((read = reader.read(buf, 0, 100)) > 0){
-                mathjsBuilder.append(buf, 0, read);
+            while ((read = reader.read(buf, 0, 1024)) > 0){
+                jsBuilder.append(buf, 0, read);
             }
         } catch (IOException e) {
-            throw new InitializationException("Failed to initialize math evaluation library.");
+            throw new RuntimeException("Failed to evaluate JavaScript from resources file.");
         }
 
-        this.jsWebView.evaluateJavascript(mathjsBuilder.toString(), new ValueCallback<String>() {
+        this.jsWebView.evaluateJavascript(jsBuilder.toString(), cb);
+    }
+
+    private void loadMathJsLibrary() {
+        this.evaluateJavascriptFromResource(R.raw.math, new ValueCallback<String>() {
             @Override
-            public void onReceiveValue(String value1) {
-                MathParser.this.jsWebView.evaluateJavascript("var parser = math.parser()",
-                        new ValueCallback<String>() {
-
+            public void onReceiveValue(String value) {
+                MathParser.this.evaluateJavascriptFromResource(R.raw.helper, new ValueCallback<String>() {
                     @Override
-                    public void onReceiveValue(String value2) {
-                        initialized = true;
+                    public void onReceiveValue(String value) {
+                        MathParser.this.initialized = true;
                     }
-
                 });
             }
         });
@@ -87,7 +82,7 @@ public class MathParser {
         this.context = context;
     }
 
-    public void initialize() throws InitializationException {
+    public void initialize() {
         if (!this.initialized) {
             this.jsWebView = new WebView(this.context);
             this.jsWebView.getSettings().setJavaScriptEnabled(true);
@@ -97,28 +92,39 @@ public class MathParser {
         }
     }
 
+    private String sanitizeJavaScriptReturnValue(String value) {
+        if (value.startsWith("\"") && value.endsWith("\"")) {
+            return value.substring(1, value.length() - 1);
+        } else {
+            return value;
+        }
+    }
+
     public void eval(String expression, final Callback cb) {
         if (!this.initialized) {
-            cb.processResult(new Result("Math evaluation library not initialized!",
-                                        ResultType.INIT_ERROR));
+            cb.processResult(new Result("Not Initialized!", ResultType.INIT_ERROR));
             return;
         }
         
-        final String mathjsExpression = String.format("parser.eval('%s').toString()", expression);
-        this.jsWebView.evaluateJavascript(mathjsExpression, new ValueCallback<String>() {
+        final String expr = String.format("evaluate('%s')", expression.replaceAll("'", "\\'"));
+
+        this.jsWebView.evaluateJavascript(expr, new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
-                if (value.startsWith("\"") && value.endsWith("\"")) {
-                    value = value.substring(1, value.length() - 1);
-                }
-                if (value.length() == 0 || "null".equals(value)) {
-                    cb.processResult(new Result(null, ResultType.NONE));
-                } else if (value.startsWith("function")){
-                    // capture the function name and args and return it
-                    String ret = value.substring(9, value.indexOf('{')).trim();
-                    cb.processResult(new Result(ret, ResultType.FUNCTION));
-                } else {
-                    cb.processResult(new Result(value, ResultType.ANS));
+                value = sanitizeJavaScriptReturnValue(value);
+                switch (value.charAt(0)) {
+                    case 's':
+                        cb.processResult(new Result(value.substring(1), ResultType.ANS));
+                        break;
+                    case 'f':
+                        cb.processResult(new Result(value.substring(1), ResultType.FUNCTION));
+                        break;
+                    case 'n':
+                        cb.processResult(new Result(null, ResultType.NONE));
+                        break;
+                    case 'e':
+                        cb.processResult(new Result(value.substring(1), ResultType.ERROR));
+                        break;
                 }
             }
         });
@@ -126,15 +132,19 @@ public class MathParser {
 
     public void clear(final Callback cb) {
         if (!this.initialized) {
-            cb.processResult(new Result("Math evaluation library not initialized!",
-                    ResultType.INIT_ERROR));
+            cb.processResult(new Result("Not Initialized!", ResultType.INIT_ERROR));
             return;
         }
 
-        this.jsWebView.evaluateJavascript("parser.clear()", new ValueCallback<String>() {
+        this.jsWebView.evaluateJavascript("clear()", new ValueCallback<String>() {
             @Override
-            public void onReceiveValue(String value) {
-                cb.processResult(new Result(null, ResultType.CLEAR_COMPLETE));
+            public void onReceiveValue(String errorMessage) {
+                errorMessage = sanitizeJavaScriptReturnValue(errorMessage);
+                if (errorMessage.length() == 0) {
+                    cb.processResult(new Result("Cleared.", ResultType.CLEAR_COMPLETE));
+                } else {
+                    cb.processResult(new Result(errorMessage, ResultType.CLEAR_ERROR));
+                }
             }
         });
     }

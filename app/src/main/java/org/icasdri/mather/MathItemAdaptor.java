@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 icasdri
+ * Copyright 2016-2017 icasdri
  *
  * This file is part of Mather. The original source code for Mather can be
  * found at <https://github.com/icasdri/Mather>. See COPYING for licensing
@@ -8,6 +8,7 @@
 
 package org.icasdri.mather;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -131,20 +132,33 @@ public class MathItemAdaptor extends RecyclerView.Adapter<MathItemAdaptor.ViewHo
 
         public void updateFrom(MathItem item) {
             this.inputView.setText(item.getInput());
+
             MathParser.Result result;
             if ((result = item.getResult()) == null) {
                 this.resultView.setVisibility(View.GONE);
             } else {
+                final int normalColor = this.inputView.getCurrentTextColor();
+
+                this.resultView.setVisibility(View.VISIBLE);
+
                 switch (result.resultType) {
                     case ANS:
-                        this.resultView.setVisibility(View.VISIBLE);
                         this.resultView.setTypeface(Typeface.MONOSPACE, Typeface.NORMAL);
+                        this.resultView.setTextColor(normalColor);
                         this.resultView.setText(result.text);
                         break;
                     case FUNCTION:
-                        this.resultView.setVisibility(View.VISIBLE);
                         this.resultView.setTypeface(Typeface.MONOSPACE, Typeface.ITALIC);
-                        this.resultView.setText("function " + result.text);
+                        this.resultView.setTextColor(normalColor);
+                        this.resultView.setText(result.text);
+                        break;
+                    case ERROR:
+                        this.resultView.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+                        this.resultView.setTextColor(Color.RED);
+                        this.resultView.setText(result.text);
+                        break;
+                    case NONE:
+                        this.resultView.setText("");
                         break;
                 }
             }
