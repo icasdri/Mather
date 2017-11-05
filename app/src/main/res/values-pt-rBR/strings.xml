@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Mather</string>
+    <string name="gen_yes">Sim</string>
+    <string name="gen_no">Não</string>
+    <string name="gen_reset">Restaurar</string>
+    <string name="gen_cancel">Cancelar</string>
+    <string name="settings_action">Configurações</string>
+    <string name="clear_action">Limpar</string>
+    <string name="pref_lock_userkeys">Travar Alterações para teclado como Calculadora</string>
+    <string name="pref_lock_userkeys_desc">Previne a edição das teclas no teclado ao pressionar e segurar</string>
+    <string name="prompt_userkeys_edit_title">Editar tecla</string>
+    <string name="prompt_userkeys_edit_desc">Insira o que você gostaria que essa tecla seja, como uma frase literal ou um código especial EVAL, DEL, ou EMPTY.</string>
+    <string name="settings_title">Configurações</string>
+    <string name="pref_reset_userkeys">Restaurar Teclado estilo Calculadora</string>
+    <string name="pref_reset_userkeys_desc">Restaurar todas as alterações feitas ao Tecldo estilo calculadora, voltando ao padrão.</string>
+    <string name="prompt_reset_userkeys_title">Restaurar Teclado estilo Calculadora</string>
+    <string name="prompt_reset_userkeys_desc">Restaurar todas as mudanças feitas ao teclado estilo calculadora?</string>
+</resources>
